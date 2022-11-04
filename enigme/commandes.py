@@ -14,6 +14,26 @@ def mcmd():
     print("MAUVAISE COMMANDE")
     saut()
 
+def traiter_choix(choix: str, minArgent: int, gainIndices: int) -> bool:
+    if choix in (str(gainIndices), str(gainIndices)+")"):
+        if argent >= minArgent:
+            saut()
+            max_indices += gainIndices
+            argent -= minArgent
+            print("Super !")
+            print("Merci, revenez vite !")
+            saut()
+            print("argent : %s" % argent)
+            saut()
+            sauver(argent, points, e_resol, e_ab, ct, espace, e, nb_e, indice_fournis, max_indices, améliorations, niv_, essais_, pt, ar_)
+            commande.help()
+            return True
+        else:
+            saut()
+            print("Vous n'avez pas assez d'argent :(")
+            commande.help()
+    return False
+
 class commande():
     def help():
         global nb_e
@@ -154,85 +174,40 @@ class commande():
             print("Revenez vite !")
             saut()
             commande.help()
-        elif choix in ("1", "1)"):
-            if argent >= 70:
-                saut()
-                max_indices += 1
-                argent -= 70
-                print("Super !")
-                print("Merci, revenez vite !")
-                saut()
-                print("argent : %s" % argent)
-                saut()
-                sauver(argent, points, e_resol, e_ab, ct, espace, e, nb_e, indice_fournis, max_indices, améliorations, niv_, essais_, pt, ar_)
-                commande.help()
+        else:
+            aucun = not traiter_choix(choix,  70, 1) and not traiter_choix(choix, 135, 2) and not traiter_choix(choix, 195, 3)
+            if aucun:
+                if choix in ('4', '4)'):
+                    if argent >= 50:
+                        saut()
+                        print("Alors...")
+                        saut()
+                        print("...")
+                        saut()
+                        print("Vous n'avez pas le droit à un indice et vous n'avez qu'un essais !!")
+                        saut()
+                        print("Quelle est la couleur du cheval blanc d'henri IV ??")
+                        rep = input()
+                        if rep == 'blanc':
+                            saut()
+                            print("BRAVO !!! C'était difficile non ?")
+                            argent_argent = random.randint(10, 20) * 3
+                            saut()
+                            print("+ %s$ !" % argent_argent)
+                            print("+ 6 points !")
+                            argent += argent_argent
+                            points += 6
+                            sauver(argent, points, e_resol, e_ab, ct, espace, e, nb_e, indice_fournis, max_indices, améliorations, niv_, essais_, pt, ar_)
+                            commande.help()
+                        else:
+                            saut()
+                            print("raté ! c'était facile pourtant !")
+                            commande.help()
             else:
                 saut()
                 print("Vous n'avez pas assez d'argent :(")
                 commande.help()
-        elif choix in ("2", "2)"):
-            if argent >= 135:
-                saut()
-                max_indices += 2
-                argent -= 135
-                print("Super !")
-                print("Merci, revenez vite !")
-                saut()
-                print("argent : %s" % argent)
-                saut()
-                sauver(argent, points, e_resol, e_ab, ct, espace, e, nb_e, indice_fournis, max_indices, améliorations, niv_, essais_, pt, ar_)
-                commande.help()
-            else:
-                saut()
-                print("Vous n'avez pas assez d'argent :(")
-                commande.help()
-        elif choix in ('3', '3)'):
-            if argent >= 195:
-                saut()
-                max_indices += 3
-                argent -= 195
-                print("Super !")
-                print("Merci, revenez vite !")
-                saut()
-                print("argent : %s" % argent)
-                saut()
-                sauver(argent, points, e_resol, e_ab, ct, espace, e, nb_e, indice_fournis, max_indices, améliorations, niv_, essais_, pt, ar_)
-                commande.help()
-            else:
-                saut()
-                print("Vous n'avez pas assez d'argent :(")
-                commande.help()
-        elif choix in ('4', '4)'):
-            if argent >= 50:
-                saut()
-                print("Alors...")
-                saut()
-                print("...")
-                saut()
-                print("Vous n'avez pas le droit à un indice et vous n'avez qu'un essais !!")
-                saut()
-                print("Quelle est la couleur du cheval blanc d'henri IV ??")
-                rep = input()
-                if rep == 'blanc':
-                    saut()
-                    print("BRAVO !!! C'était difficile non ?")
-                    argent_argent = random.randint(10, 20) * 3
-                    saut()
-                    print("+ %s$ !" % argent_argent)
-                    print("+ 6 points !")
-                    argent += argent_argent
-                    points += 6
-                    sauver(argent, points, e_resol, e_ab, ct, espace, e, nb_e, indice_fournis, max_indices, améliorations, niv_, essais_, pt, ar_)
-                    commande.help()
-                else:
-                    saut()
-                    print("raté ! c'était facile pourtant !")
-                    commande.help()
-            else:
-                saut()
-                print("Vous n'avez pas assez d'argent :(")
-                commande.help()
-        elif choix in ('5', '5)'):
+        if choix in ('5', '5)'):
             if argent >= 30:
                 saut()
                 print("Voulez-vous vraiment savoir l'information ultra-confidentielle?")
@@ -246,7 +221,7 @@ class commande():
                 saut()
                 print("Vous n'avez pas assez d'argent :(")
                 commande.help()
-        else:
+        elif aucun:
             mcmd()
             commande.shop()
     def reset():

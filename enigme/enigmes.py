@@ -5,7 +5,6 @@ import sys
 import pickle
 import os.path
 
-import commandes
 import functions
 
 ###VARIABLES ET DICOS###
@@ -22,4 +21,4 @@ print(xx)
 functions.saut()
 functions.charger()
 functions.saut()
-commandes.commande.help()
+functions.commandes.commande.help()
